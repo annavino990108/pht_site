@@ -7,6 +7,8 @@ const sharp = require('sharp');
 const mkdirp = require('mkdirp');
 const config = require('../config/app');
 const mailer =require('../config/mailer');
+const gm = require('gm').subClass({imageMagick: true});;
+const fs = require("fs");
 
 //const rs = () => Math.random().toString(36).slice(-3);
 
@@ -74,6 +76,11 @@ router.post('/upload/:id',(req,res)=>{
       if(err.code === 'EXTENTION'){
         error = 'Неверный формат данных'
       }
+            gm('/uploads' + global.dirname  + global.filename)
+.resizeExact(240, 240)
+.write('/uploads' + global.dirname  + global.filename, function (err) {
+  if (!err) console.log('done');
+});
     }
     res.json({
       ok:!!error,
